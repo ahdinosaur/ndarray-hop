@@ -1,0 +1,34 @@
+{
+  "name": "ndarray-hop",
+  "version": "0.0.0",
+  "description": "hops across a stream of ndarrays into a stream of partially overlapping frames",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahdinosaur/ndarray-hop.git"
+  },
+  "keywords": [
+    "ndarray",
+    "hop",
+    "frame",
+    "window"
+  ],
+  "author": "ahdinosaur",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahdinosaur/ndarray-hop/issues"
+  },
+  "homepage": "https://github.com/ahdinosaur/ndarray-hop#readme",
+  "devDependencies": {
+    "tape": "^4.0.1"
+  },
+  "dependencies": {
+    "CBuffer": "^1.1.0",
+    "coalescy": "^1.0.0",
+    "dtype": "^2.0.0",
+    "ndarray": "^1.0.18"
+  }
+}
