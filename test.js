@@ -18,7 +18,7 @@ test("hop unaligned", function(t) {
   var frameShape = [7]
 
   var slicer = hop({
-    frame: { shape: frameShape },
+    frameShape: frameShape,
     hopSize: 3
   }, function (x) {
     var f = expectedFrames[0]
