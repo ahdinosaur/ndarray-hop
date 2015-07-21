@@ -8,27 +8,23 @@ module.exports = hop
 function hop (opts, cb) {
   opts = coal(opts, {})
 
-  var frameShape = opts.frameShape
-  if (frameShape == null) {
-    throw new Error('Frame shape not given')
-  }
-  var frameSize = size(frameShape)
+  var frame = coal(opts.frame, {})
+  frame = ndarray([], frame.shape, frame.stride, frame.offset)
 
   var hopSize = opts.hopSize
-  if (hopSize > frameSize) {
-    throw new Error('Hop size must be smaller than frame size')
+  if (hopSize > frame.size) {
+    throw new Error("Hop size must be smaller than frame size")
   }
 
   var bufferSize = coal(
     opts.bufferSize,
-    frameSize * Math.pow(2, 4)
+    frame.size * Math.pow(2, 4)
   )
 
   var dtypeName = opts.dtype || 'float32'
   var Dtype = getDtype(dtypeName)
 
-  // setup dynamic vars
-  var buffer = cbuffer(bufferSize)
+  var buffer = new cbuffer(bufferSize)
   buffer.fill(0)
 
   var offset = 0
@@ -51,25 +47,18 @@ function hop (opts, cb) {
     // emit any splices
     var data
     while (
-      (offset > frameSize) &&
-      ((offset - hopper) >= frameSize)
+      (offset > frame.size) &&
+      ((offset - hopper) >= frame.size)
     ) {
-      data = buffer.slice(hopper, hopper + frameSize)
+      data = buffer.slice(hopper, hopper + frame.size)
 
       cb(ndarray(
         new Dtype(data),
-        frameShape,
-        undefined,
+        frame.shape,
+        frame.stride,
         hopper
       ))
       hopper += hopSize
     }
   }
-}
-
-function size (shape) {
-  return shape.reduce(mult)
-}
-function mult (a, b) {
-  return a * b
 }
