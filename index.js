@@ -11,8 +11,9 @@ function hop (opts, cb) {
   var frame = coal(opts.frame, {})
   frame = ndarray([], frame.shape, frame.stride, frame.offset)
 
-  var hopSize = opts.hopSize
-  if (hopSize > frame.size) {
+  var hop = coal(opts.hop, {})
+  hop = ndarray([], hop.shape)
+  if (hop.size > frame.size) {
     throw new Error("Hop size must be smaller than frame size")
   }
 
@@ -30,15 +31,15 @@ function hop (opts, cb) {
   var offset = 0
   var hopper = 0
 
-  // receive ndarray
   return function onArray (arr) {
+    // receive input
     var input = ndarray(
       arr.data, arr.shape, arr.stride, arr.offset
     )
 
     // assign input array at offset
     for (var i = 0; i < input.size; i++) {
-      buffer.set(offset + i, arr.data[i])
+      buffer.set(offset + i, input.data[i])
     }
 
     // increment offset
@@ -50,15 +51,16 @@ function hop (opts, cb) {
       (offset > frame.size) &&
       ((offset - hopper) >= frame.size)
     ) {
-      data = buffer.slice(hopper, hopper + frame.size)
+      data = buffer.slice(hopper, hopper - frame.size)
 
       cb(ndarray(
         new Dtype(data),
         frame.shape,
         frame.stride,
-        hopper
+        0
       ))
-      hopper += hopSize
+
+      hopper += hop.size
     }
   }
 }
