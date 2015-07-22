@@ -30,6 +30,7 @@
     "dtype": "^2.0.0",
     "modarray": "^1.0.2",
     "modslice": "^1.0.0",
-    "ndarray": "^1.0.18"
+    "ndarray": "^1.0.18",
+    "through2": "^2.0.0"
   }
 }
