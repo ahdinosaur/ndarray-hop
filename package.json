@@ -1,6 +1,6 @@
 {
   "name": "ndarray-hop",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "hops across a stream of ndarrays into a stream of partially overlapping frames",
   "main": "index.js",
   "scripts": {
