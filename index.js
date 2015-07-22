@@ -1,7 +1,8 @@
 var coal = require('coalescy')
-var ndarray = require('ndarray')
-var cbuffer = require('CBuffer')
 var getDtype = require('dtype')
+var ndarray = require('ndarray')
+var modarray = require('modarray')
+var modslice = require('modslice')
 
 module.exports = hop
 
@@ -25,8 +26,10 @@ function hop (opts, cb) {
   var dtypeName = opts.dtype || 'float32'
   var Dtype = getDtype(dtypeName)
 
-  var buffer = new cbuffer(bufferSize)
-  buffer.fill(0)
+  var buffer = modarray({
+    data: new Dtype(bufferSize),
+    modulo: bufferSize
+  })
 
   var offset = 0
   var hopper = 0
@@ -51,10 +54,9 @@ function hop (opts, cb) {
       (offset > frame.size) &&
       ((offset - hopper) >= frame.size)
     ) {
-      data = buffer.slice(hopper, hopper - frame.size)
 
       cb(ndarray(
-        new Dtype(data),
+        modslice(buffer, hopper, hopper - frame.size).data,
         frame.shape,
         frame.stride,
         0

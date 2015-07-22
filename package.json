@@ -26,9 +26,10 @@
     "tape": "^4.0.1"
   },
   "dependencies": {
-    "CBuffer": "^1.1.0",
     "coalescy": "^1.0.0",
     "dtype": "^2.0.0",
+    "modarray": "^1.0.2",
+    "modslice": "^1.0.0",
     "ndarray": "^1.0.18"
   }
 }
