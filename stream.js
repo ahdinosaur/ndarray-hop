@@ -11,7 +11,7 @@ function hopStream (opts) {
     stream.push(arr)
   })
 
-  stream = through.obj(function (arr, enc, cb) {
+  stream = through.obj(opts.stream, function (arr, enc, cb) {
     slicer(arr)
     cb()
   })
